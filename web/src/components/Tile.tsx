@@ -3,7 +3,7 @@
 import Link from "next/link";
 
 export function MetricTile({
-  icon, label, value, unit, sub, accent = "#FFFFFF", href, badge,
+  icon, label, value, unit, sub, accent = "#FFFFFF", href, badge, compact = false,
 }: {
   icon: React.ReactNode;
   label: string;
@@ -13,21 +13,22 @@ export function MetricTile({
   accent?: string;
   href?: string;
   badge?: React.ReactNode;
+  compact?: boolean;
 }) {
   const inner = (
-    <div className="tile flex h-full flex-col gap-2 transition-transform hover:-translate-y-0.5">
+    <div className={`tile flex h-full flex-col transition-transform hover:-translate-y-0.5 ${compact ? "gap-1 !p-3" : "gap-2"}`}>
       <div className="flex items-center justify-between">
-        <span className="flex items-center gap-2 text-sm text-ink-dim">
+        <span className={`flex items-center gap-1.5 text-ink-dim ${compact ? "text-[11px]" : "text-sm"}`}>
           <span className="text-ink-mute">{icon}</span>
           {label}
         </span>
         {badge}
       </div>
       <div className="mt-auto">
-        <span className="kpi-number text-3xl" style={{ color: accent }}>{value}</span>
+        <span className={`kpi-number ${compact ? "text-2xl" : "text-3xl"}`} style={{ color: accent }}>{value}</span>
         {unit && <span className="ms-1 text-xs text-ink-mute">{unit}</span>}
       </div>
-      {sub && <div className="text-[11px] leading-tight text-ink-mute">{sub}</div>}
+      {sub && <div className={`leading-tight text-ink-mute ${compact ? "text-[10px]" : "text-[11px]"}`}>{sub}</div>}
     </div>
   );
   return href ? <Link href={href} className="block h-full">{inner}</Link> : inner;

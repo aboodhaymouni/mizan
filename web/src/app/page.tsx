@@ -53,18 +53,39 @@ export default function NationalMapPage() {
   const c = impact?.constants;
 
   return (
-    <div className="grid gap-3 xl:grid-cols-[1fr_320px]">
-      {/* العمود الأساسي */}
-      <div className="space-y-3">
+    <div className="grid grid-cols-1 gap-3 xl:h-[calc(100vh-92px)] xl:grid-cols-[300px_1fr] xl:overflow-hidden">
+      {/* العمود الجانبي (يمين RTL): الاستراتيجية + التنبيهات */}
+      <aside className="order-2 flex min-h-0 flex-col gap-3 xl:order-1 xl:overflow-y-auto xl:pe-1">
+        <StrategicPanel impact={impact} />
+        <div className="panel p-4">
+          <div className="mb-2 flex items-center justify-between">
+            <h2 className="text-sm font-bold text-ink">{t("top_alerts")}</h2>
+            <Link href="/queue" className="text-[11px] text-teal-glow hover:underline">{t("view_queue")} ←</Link>
+          </div>
+          <ul className="space-y-1">
+            {alerts.slice(0, 5).map((a) => (
+              <li key={a.id}>
+                <Link href={`/queue?focus=${a.id}`} className="flex items-center justify-between rounded-tile px-2 py-1.5 text-xs transition-colors hover:bg-space-700">
+                  <span className="flex items-center gap-2"><TierDot tier={a.tier} /><span dir="ltr" className="num">{a.id}</span></span>
+                  <span className="num text-ink-dim">{a.area_ha} ha · <b style={{ color: "#F43F5E" }}>{a.score}</b></span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </aside>
+
+      {/* العمود الأساسي: الخريطة تملأ المساحة + شريط المؤشرات أسفلها */}
+      <div className="order-1 grid min-h-0 grid-rows-[1fr] gap-3 xl:order-2 xl:grid-rows-[1fr_auto]">
         {/* هيرو: خريطة القمر الصناعي الحيّة + شريحة حالة الحوض العائمة */}
-        <div className="relative">
+        <div className="relative min-h-0">
           <MapView
             fields={fields}
             basins={layers.basins ? basins : null}
             exclusions={exclusions}
             validationSites={layers.validation && validation ? validation.sites : []}
             onFieldClick={(id) => router.push(`/queue?focus=${id}`)}
-            className="h-[64vh] min-h-[460px]"
+            className="h-[58vh] min-h-[420px] xl:h-full xl:min-h-0"
             showBasinLabels
             basemap={basemap}
             showFields={layers.fields}
@@ -96,64 +117,40 @@ export default function NationalMapPage() {
           )}
         </div>
 
-        {/* أبرز المؤشرات (Today's Highlight) */}
-        <div className="panel p-5">
-          <h2 className="mb-4 font-head text-xl font-extrabold text-ink">{lang === "ar" ? "أبرز المؤشرات" : "Today's Highlights"}</h2>
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-            <MetricTile
-              icon={<TileIcon d="M12 21s7-6.5 7-11a7 7 0 1 0-14 0c0 4.5 7 11 7 11Z M12 7v3" />}
-              label={t("high_priority_zones")} value={stats ? stats.reds : "—"} accent="#F43F5E"
-              sub={lang === "ar" ? "حقول 🔴 درجة ≥70" : "fields 🔴 score ≥70"} href="/queue"
-            />
-            <MetricTile
-              icon={<TileIcon circle />} label={t("median_risk_zones")} value={stats ? stats.oranges : "—"} accent="#F59E0B"
-              sub={lang === "ar" ? "حقول 🟠 40–69" : "fields 🟠 40–69"} href="/queue"
-            />
-            <MetricTile
-              icon={<TileIcon d="M4 19h16M8 16v-4M12 16V8M16 16v-7" />} label={t("est_recoverable")}
-              value={stats ? fmtMcm(stats.m3mid, lang) : "—"} accent="#2DD4BF" sub={lang === "ar" ? "نطاق أوسط" : "mid range"} href="/impact"
-            />
-            <MetricTile
-              icon={<TileIcon d="M12 2v6m0 0 3-2m-3 2L9 6 M5 14a7 7 0 1 0 14 0c0-3-3-7-7-10-4 3-7 7-7 10Z" />}
-              label={lang === "ar" ? "مطر الصيف (NASA حقيقي)" : "Summer rain (real NASA)"}
-              value={climate ? climate.rain_proof.mean_summer_mm : "—"} unit="mm" accent="#E9B949"
-              sub={lang === "ar" ? "أي خُضرة صيفية = ضخّ" : "any summer green = pumping"} href="/timemachine"
-              badge={<span className="rounded-full border border-flag-green/40 bg-flag-green/10 px-2 py-0.5 text-[9px] font-bold text-flag-green">NASA</span>}
-            />
-            <MetricTile
-              icon={<TileIcon d="M3 12h18M12 3v18" />} label={t("national_deficit")}
-              value={c ? `−${c.overdraft_mcm}` : "—"} unit="MCM" accent="#F43F5E"
-              sub={lang === "ar" ? "ضخّ جائر فوق الآمن (MWI)" : "overdraft above safe (MWI)"} href="/impact"
-            />
-            <MetricTile
-              icon={<TileIcon d="M4 19V5m0 14h16M7 14l3-3 3 2 4-5" />} label={t("overdraft_rate")}
-              value={c ? c.national_abstraction_pct : "—"} unit="%" accent="#F59E0B"
-              sub={lang === "ar" ? "السحب الوطني/الآمن" : "national/safe yield"} href="/methodology"
-            />
-          </div>
+        {/* شريط أبرز المؤشرات — صفّ مضغوط أسفل الخريطة (يملأ الشاشة بلا scroll) */}
+        <div className="grid grid-cols-3 gap-2 lg:grid-cols-6">
+          <MetricTile compact
+            icon={<TileIcon d="M12 21s7-6.5 7-11a7 7 0 1 0-14 0c0 4.5 7 11 7 11Z M12 7v3" />}
+            label={t("high_priority_zones")} value={stats ? stats.reds : "—"} accent="#F43F5E"
+            sub={lang === "ar" ? "🔴 درجة ≥70" : "🔴 score ≥70"} href="/queue"
+          />
+          <MetricTile compact
+            icon={<TileIcon circle />} label={t("median_risk_zones")} value={stats ? stats.oranges : "—"} accent="#F59E0B"
+            sub={lang === "ar" ? "🟠 40–69" : "🟠 40–69"} href="/queue"
+          />
+          <MetricTile compact
+            icon={<TileIcon d="M4 19h16M8 16v-4M12 16V8M16 16v-7" />} label={t("est_recoverable")}
+            value={stats ? fmtMcm(stats.m3mid, lang) : "—"} accent="#2DD4BF" sub={lang === "ar" ? "نطاق أوسط" : "mid range"} href="/impact"
+          />
+          <MetricTile compact
+            icon={<TileIcon d="M5 14a7 7 0 1 0 14 0c0-3-3-7-7-10-4 3-7 7-7 10Z" />}
+            label={lang === "ar" ? "مطر الصيف" : "Summer rain"}
+            value={climate ? climate.rain_proof.mean_summer_mm : "—"} unit="mm" accent="#E9B949"
+            sub={lang === "ar" ? "NASA حقيقي" : "real NASA"} href="/timemachine"
+            badge={<span className="rounded-full border border-flag-green/40 bg-flag-green/10 px-1.5 py-0.5 text-[9px] font-bold text-flag-green">NASA</span>}
+          />
+          <MetricTile compact
+            icon={<TileIcon d="M3 12h18M12 3v18" />} label={t("national_deficit")}
+            value={c ? `−${c.overdraft_mcm}` : "—"} unit="MCM" accent="#F43F5E"
+            sub={lang === "ar" ? "فوق الآمن (MWI)" : "above safe (MWI)"} href="/impact"
+          />
+          <MetricTile compact
+            icon={<TileIcon d="M4 19V5m0 14h16M7 14l3-3 3 2 4-5" />} label={t("overdraft_rate")}
+            value={c ? c.national_abstraction_pct : "—"} unit="%" accent="#F59E0B"
+            sub={lang === "ar" ? "وطني/آمن" : "national/safe"} href="/methodology"
+          />
         </div>
       </div>
-
-      {/* العمود الجانبي */}
-      <aside className="space-y-3">
-        <StrategicPanel impact={impact} />
-        <div className="panel p-4">
-          <div className="mb-2 flex items-center justify-between">
-            <h2 className="text-sm font-bold text-ink">{t("top_alerts")}</h2>
-            <Link href="/queue" className="text-[11px] text-teal-glow hover:underline">{t("view_queue")} ←</Link>
-          </div>
-          <ul className="space-y-1">
-            {alerts.slice(0, 6).map((a) => (
-              <li key={a.id}>
-                <Link href={`/queue?focus=${a.id}`} className="flex items-center justify-between rounded-tile px-2 py-2 text-xs transition-colors hover:bg-space-700">
-                  <span className="flex items-center gap-2"><TierDot tier={a.tier} /><span dir="ltr" className="num">{a.id}</span></span>
-                  <span className="num text-ink-dim">{a.area_ha} ha · <b style={{ color: "#F43F5E" }}>{a.score}</b></span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </aside>
     </div>
   );
 }
