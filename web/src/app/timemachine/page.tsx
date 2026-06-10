@@ -6,6 +6,7 @@
 import { useEffect, useMemo, useState } from "react";
 import type { ClimateData, FieldsFC, Forecast, NasaManifest, TimeMachineData } from "@/lib/types";
 import { getClimate, getFields, getForecast, getNasa, getTimeMachine } from "@/lib/api";
+import { asset } from "@/lib/base";
 import { useLang } from "@/lib/i18n";
 import { fmt } from "@/lib/format";
 import RiskMatrix from "@/components/RiskMatrix";
@@ -60,11 +61,11 @@ export default function TimeMachinePage() {
         <div className="panel relative overflow-hidden p-0">
           <div className="relative h-[58vh] min-h-[420px] w-full select-none" dir="ltr">
             {afterImg && (
-              <img src={afterImg} alt={`Azraq ${afterYear}`} className="absolute inset-0 h-full w-full object-cover" draggable={false} />
+              <img src={asset(afterImg)} alt={`Azraq ${afterYear}`} className="absolute inset-0 h-full w-full object-cover" draggable={false} />
             )}
             {beforeImg && (
               <div className="absolute inset-0 overflow-hidden" style={{ clipPath: `inset(0 ${100 - split}% 0 0)` }}>
-                <img src={beforeImg} alt="Azraq 2016" className="h-full w-full object-cover" draggable={false} />
+                <img src={asset(beforeImg)} alt="Azraq 2016" className="h-full w-full object-cover" draggable={false} />
               </div>
             )}
             {/* مقبض السحب */}

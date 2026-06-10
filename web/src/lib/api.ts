@@ -4,6 +4,7 @@
  * 2) تسقط على الملفات الساكنة /data/*.json (نسخة من data/demo)
  * تحديثات الحالة في الوضع الساكن تُحفظ في localStorage (موسومة محلية).
  */
+import { asset } from "./base";
 import type {
   AlertItem, BasinsFC, ClimateData, FieldFeature, FieldsFC, FieldStatus, Forecast,
   ImpactData, LedgerData, MetaData, NasaManifest, TimeMachineData, TwsSeries, ValidationData,
@@ -35,7 +36,7 @@ async function tryApi<T>(path: string): Promise<T | null> {
 
 async function staticJson<T>(file: string): Promise<T> {
   // no-cache: يُعيد التحقق دائماً حتى تظهر البيانات المحدَّثة (لوحة بيانات لا أصول ثابتة)
-  const res = await fetch(`/data/${file}`, { cache: "no-cache" });
+  const res = await fetch(asset(`/data/${file}`), { cache: "no-cache" });
   if (!res.ok) throw new Error(`static data missing: ${file}`);
   lastSource = "static";
   return (await res.json()) as T;
