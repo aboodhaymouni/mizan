@@ -36,10 +36,16 @@ BASELINE = ("2004-01", "2009-12")   # baseline anomalies الرسمي للـ mas
 
 
 def token():
+    """token من Earthdata: متغيّر البيئة MIZAN_ED_TOKEN أولاً (للاستنساخ)، ثم الملف المحلي.
+    لا يُخزَّن أي token في git أبداً — أنشئ token خاصاً بك من urs.earthdata.nasa.gov."""
+    env = os.environ.get("MIZAN_ED_TOKEN", "").strip()
+    if env:
+        return env
     p = os.path.join(REAL_DIR, ".ed_token")
-    if not os.path.exists(p):
-        sys.exit("✗ لا يوجد data/real/.ed_token")
-    return open(p, encoding="utf-8").read().strip()
+    if os.path.exists(p):
+        return open(p, encoding="utf-8").read().strip()
+    sys.exit("✗ لا token. اضبط متغيّر البيئة MIZAN_ED_TOKEN أو ضع الـ token في data/real/.ed_token "
+             "(أنشئه مجاناً من https://urs.earthdata.nasa.gov/users/new ثم Generate Token).")
 
 
 def download():
