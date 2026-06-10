@@ -78,8 +78,8 @@ export default function MethodologyPage() {
         <table className="w-full min-w-[760px] text-xs">
           <thead>
             <tr className="border-b border-space-700 text-ink-mute">
-              <th className="px-2 py-2 text-start">Dataset</th>
-              <th className="px-2 py-2 text-start">GEE ID</th>
+              <th className="px-2 py-2 text-start">{ar ? "الداتاست" : "Dataset"}</th>
+              <th className="px-2 py-2 text-start">{ar ? "المعرّف" : "GEE ID"}</th>
               <th className="px-2 py-2 text-start">{ar ? "الدور" : "Role"}</th>
               <th className="px-2 py-2 text-start">{ar ? "الأثر المرئي" : "Visible artifact"}</th>
               <th className="px-2 py-2 text-start">{ar ? "التصنيف" : "Class"}</th>
