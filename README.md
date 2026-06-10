@@ -4,6 +4,10 @@
 > *We weigh Jordan's stolen groundwater from space — and hand the Ministry the map to take it back.*
 > **AstroCode 2026 · التحدي 1 · فريق Vcoders**
 
+### 🌐 العرض الحيّ (Live Demo) — **[aboodhaymouni.github.io/mizan](https://aboodhaymouni.github.io/mizan/)**
+
+لوحة تفاعلية على **بيانات فضائية حقيقية**: كشف Sentinel-2 (141 حقلاً) · GRACE/GRACE-FO الحقيقي · مناخ NASA POWER · صور NASA GIBS. عربي-RTL أولاً + إنجليزي.
+
 ## نظرة عامة على التنفيذ (Implementation Overview)
 
 ميزان يحوّل بيانات الأقمار المفتوحة (Sentinel-2 · GRACE-FO · CHIRPS · HLS · SMAP · MODIS ET · GLDAS) إلى **أداة إنفاذ تشغيلية** لوزارة المياه: حقول خضراء في صحراء بلا مطر فوق حوض مغلق قانونياً = ضخّ جوفي مشبوه → طابور تفتيش GPS مرتّب بدرجة اشتباه شفافة، مع دليل قابل للشرح لكل موقع.
