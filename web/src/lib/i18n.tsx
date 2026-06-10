@@ -54,8 +54,8 @@ const dict = {
   basin_azraq: { ar: "حوض الأزرق", en: "Azraq Basin" },
   grace_curve_title: { ar: "منحنى GRACE للمنطقة الشرقية/الأردن", en: "GRACE curve — East Jordan region" },
   grace_subtitle: {
-    ar: "سماكة الماء المكافئ (سم) — GRACE+GRACE-FO MASCON · ينتهي 9/2024 (يُعرض القطع بشفافية)",
-    en: "Equivalent water thickness (cm) — GRACE+GRACE-FO MASCON · ends 9/2024 (cut shown transparently)",
+    ar: "سماكة الماء المكافئ (سم) — GRACE+GRACE-FO MASCON الحقيقي (JPL RL06.3v04) · الفجوة 2017–2018 معروضة",
+    en: "Equivalent water thickness (cm) — real GRACE+GRACE-FO MASCON (JPL RL06.3v04) · 2017–2018 gap shown",
   },
   grace_gap: { ar: "فجوة GRACE → GRACE-FO", en: "GRACE → GRACE-FO gap" },
   tws_label: { ar: "TWS (إجمالي تخزين الماء)", en: "TWS (total water storage)" },

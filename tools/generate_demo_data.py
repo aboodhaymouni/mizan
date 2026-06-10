@@ -59,6 +59,15 @@ def load_real_fields():
         return fc
     return None
 
+
+def load_real_json(name):
+    """يحمّل ملف بيانات حقيقي من data/real/ إن وُجد (tws_series / forecast)."""
+    path = os.path.join(REAL_DIR, name)
+    if not os.path.exists(path):
+        return None
+    with open(path, encoding="utf-8") as f:
+        return json.load(f)
+
 # ---------------------------------------------------------------- AOI الأزرق
 BBOX = {"lon_min": 36.45, "lon_max": 37.30, "lat_min": 31.55, "lat_max": 32.25}
 
@@ -637,8 +646,17 @@ def main():
         fields = gen_fields()
         fields_real = False
     basins = gen_basins()
-    tws = gen_tws()
-    forecast = gen_forecast(tws)
+    real_tws = load_real_json("tws_series.json")
+    real_forecast = load_real_json("forecast.json")
+    grace_real = bool(real_tws and real_forecast)
+    if grace_real:
+        tws = real_tws
+        forecast = real_forecast
+        n = sum(1 for s in tws["series"] if s.get("tws_cm") is not None)
+        print(f"  ✅ GRACE حقيقي: {n} شهراً ({tws['series'][0]['month']}→{tws['ends_at']})")
+    else:
+        tws = gen_tws()
+        forecast = gen_forecast(tws)
     validation = gen_validation()
     impact = gen_impact(fields)
     ledger = gen_ledger(impact)
@@ -658,26 +676,31 @@ def main():
     real_layers = []
     if fields_real:
         real_layers.append("Sentinel-2 L2A detection (NDVI irrigated-field engine via Planetary Computer)")
+    if grace_real:
+        real_layers.append("GRACE/GRACE-FO mascon TWS (JPL RL06.3Mv04 via NASA PO.DAAC)")
     if REAL:
         real_layers += ["NASA POWER climate (precip/ET/temp 2002–2024)",
                         "NASA GIBS satellite imagery (VIIRS/MODIS basemap + time machine)"]
     demo_layers = []
     if not fields_real:
         demo_layers.append("AI detection output (suspect field polygons — تحتاج Sentinel-2)")
-    demo_layers.append("GRACE TWS series (منحنى توضيحي على الاتجاه المنشور — السلسلة الكاملة تحتاج Earthdata)")
+    if not grace_real:
+        demo_layers.append("GRACE TWS series (منحنى توضيحي — السلسلة الحقيقية تحتاج Earthdata)")
 
-    all_real = fields_real and REAL
+    fully_real = fields_real and REAL and grace_real
     meta = {
-        "data_mode": "real" if all_real else ("hybrid" if (REAL or fields_real) else "demo"),
+        "data_mode": "real" if (fields_real and REAL) else ("hybrid" if (REAL or fields_real) else "demo"),
+        "grace_real": grace_real,
         "generated_at": GENERATED_AT,
-        "generator_version": "3.0.0",
+        "generator_version": "3.1.0",
         "fields_source": "Sentinel-2 L2A (real)" if fields_real else "synthetic (demo)",
+        "grace_source": "GRACE/GRACE-FO mascon JPL RL06.3Mv04 (real)" if grace_real else "illustrative",
         "real_layers": real_layers,
         "demo_layers": demo_layers,
-        "note_ar": ("الكشف حقيقي من Sentinel-2 + مناخ NASA POWER + صور GIBS — منحنى GRACE توضيحي على الاتجاه المنشور"
-                    if all_real else "طبقات NASA حقيقية مع بعض المخرجات التوضيحية الموسومة"),
-        "note_en": ("Real Sentinel-2 detection + NASA POWER climate + GIBS imagery — GRACE curve illustrative on published trend"
-                    if all_real else "Real NASA layers with some labeled illustrative outputs"),
+        "note_ar": ("بيانات حقيقية بالكامل: كشف Sentinel-2 + GRACE/GRACE-FO الحقيقي + مناخ NASA POWER + صور GIBS"
+                    if fully_real else "الكشف حقيقي من Sentinel-2 + مناخ NASA POWER + صور GIBS"),
+        "note_en": ("Fully real: Sentinel-2 detection + real GRACE/GRACE-FO + NASA POWER climate + GIBS imagery"
+                    if fully_real else "Real Sentinel-2 detection + NASA POWER climate + GIBS imagery"),
     }
 
     climate = gen_climate()

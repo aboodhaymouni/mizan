@@ -16,9 +16,13 @@ venv/
 # قواعد بيانات محلية
 backend/mizan.db
 
-# بيئة
+# بيئة + أسرار (لا تُرفع أبداً)
 .env
 .env.local
+.netrc
+data/real/.ed_token
+data/real/_grace_raw/
+*.nc
 
 # نظام
 .DS_Store

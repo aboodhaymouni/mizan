@@ -99,7 +99,9 @@ export default function BasinPage() {
               </h2>
               <div className="flex gap-2">
                 <RegionalBadge />
-                <IllustrativeBadge small />
+                {tws?.is_real
+                  ? <span className="inline-flex items-center gap-1 rounded-full border border-flag-green/50 bg-flag-green/10 px-2 py-0.5 text-[10px] font-bold text-flag-green"><span className="h-1.5 w-1.5 rounded-full bg-flag-green" />{lang === "ar" ? "GRACE حقيقي · JPL" : "Real GRACE · JPL"}</span>
+                  : <IllustrativeBadge small />}
               </div>
             </div>
             <p className="mb-2 text-[11px] text-ink-mute">{t("grace_subtitle")}</p>

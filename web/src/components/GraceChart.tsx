@@ -89,12 +89,12 @@ export default function GraceChart({ tws, forecast }: { tws: TwsSeries; forecast
               fontSize: 10,
             }}
           />
-          {/* قطع MASCON عند 9/2024 */}
+          {/* نهاية سلسلة MASCON الحقيقية (آخر شهر متاح) */}
           <ReferenceLine
             x={tws.ends_at}
             stroke="#F59E0B"
             strokeDasharray="4 3"
-            label={{ value: "9/2024", position: "insideTopRight", fill: "#F59E0B", fontSize: 10 }}
+            label={{ value: tws.ends_at, position: "insideTopRight", fill: "#F59E0B", fontSize: 10 }}
           />
           <ReferenceLine y={0} stroke="#27405F" strokeDasharray="2 4" />
           {/* نطاق الثقة */}

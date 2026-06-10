@@ -79,6 +79,8 @@ export interface TwsSeries {
   gap: [string, string];
   ends_at: string;
   series: { month: string; tws_cm: number | null; gws_cm: number | null }[];
+  source?: string;
+  is_real?: boolean;
   is_demo: boolean;
 }
 
