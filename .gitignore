@@ -1,0 +1,21 @@
+# Node
+node_modules/
+.next/
+out/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# قواعد بيانات محلية
+backend/mizan.db
+
+# بيئة
+.env
+.env.local
+
+# نظام
+.DS_Store
+Thumbs.db
