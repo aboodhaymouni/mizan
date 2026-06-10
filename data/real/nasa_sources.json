@@ -1,0 +1,23 @@
+{
+  "satellite_imagery": {
+    "provider": "NASA GIBS (Global Imagery Browse Services)",
+    "layers": [
+      "VIIRS_SNPP_CorrectedReflectance_TrueColor (375م — خلفية الأردن)",
+      "MODIS_Terra_CorrectedReflectance_TrueColor (250م — آلة الزمن الأزرق)",
+      "MODIS_Terra_L3_NDVI_Monthly (مؤشر الخضرة)"
+    ],
+    "auth": "بلا مصادقة (WMS عام)",
+    "endpoint": "https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi"
+  },
+  "climate": {
+    "provider": "NASA POWER",
+    "dataset": "MERRA-2 + satellite-derived",
+    "auth": "بلا مصادقة (REST عام)"
+  },
+  "grace": {
+    "provider": "NASA/JPL GRACE & GRACE-FO",
+    "note": "اتجاه TWS الهابط والقيم الإقليمية منشورة (Rodell et al. 2024، JPL) — السلسلة الكاملة تحتاج Earthdata؛ المعروض اتجاه إقليمي موثّق",
+    "published_figures": "هبوط المياه العذبة منذ 2015 ~1,200 كم³ · 21/37 خزاناً تجاوز الاستدامة"
+  },
+  "is_real": true
+}

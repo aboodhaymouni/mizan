@@ -7,8 +7,9 @@ import { getMeta } from "@/lib/api";
 import Logo from "./Logo";
 import { DemoBadge } from "./Badges";
 
-const NAV: { href: string; key: "nav_map" | "nav_basin" | "nav_queue" | "nav_impact" | "nav_validation" | "nav_methodology" }[] = [
+const NAV: { href: string; key: "nav_map" | "nav_basin" | "nav_timemachine" | "nav_queue" | "nav_impact" | "nav_validation" | "nav_methodology" }[] = [
   { href: "/", key: "nav_map" },
+  { href: "/timemachine", key: "nav_timemachine" },
   { href: "/basin/azraq", key: "nav_basin" },
   { href: "/queue", key: "nav_queue" },
   { href: "/impact", key: "nav_impact" },

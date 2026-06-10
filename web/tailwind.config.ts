@@ -25,6 +25,12 @@ const config: Config = {
           glow: "#2DD4BF",
         },
         cyanline: "#38BDF8",
+        // ذهبي سينمائي — لهجة آلة الزمن والعناوين الكبرى (إلهام التصميم)
+        gold: {
+          DEFAULT: "#E9B949",
+          soft: "#F1C75B",
+          deep: "#C99A2E",
+        },
         flag: {
           red: "#F43F5E",
           orange: "#F59E0B",
@@ -38,15 +44,30 @@ const config: Config = {
       boxShadow: {
         glow: "0 0 24px rgba(45, 212, 191, 0.18)",
         "glow-red": "0 0 20px rgba(244, 63, 94, 0.35)",
+        "glow-gold": "0 0 30px rgba(233, 185, 73, 0.25)",
         panel: "0 8px 30px rgba(2, 6, 16, 0.55)",
+        cinematic: "0 20px 60px rgba(2, 6, 16, 0.7)",
+      },
+      fontSize: {
+        hero: ["clamp(2.6rem, 6vw, 5.2rem)", { lineHeight: "1", letterSpacing: "-0.02em" }],
       },
       animation: {
         "pulse-dot": "pulseDot 1.6s ease-in-out infinite",
+        "fade-up": "fadeUp 0.5s ease-out",
+        scan: "scan 6s linear infinite",
       },
       keyframes: {
         pulseDot: {
           "0%, 100%": { opacity: "1", transform: "scale(1)" },
           "50%": { opacity: "0.45", transform: "scale(1.6)" },
+        },
+        fadeUp: {
+          from: { opacity: "0", transform: "translateY(10px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        scan: {
+          "0%": { transform: "translateY(-100%)" },
+          "100%": { transform: "translateY(100%)" },
         },
       },
     },

@@ -25,6 +25,7 @@ const dict = {
 
   // ---- التنقل
   nav_map: { ar: "الخريطة الوطنية", en: "National Map" },
+  nav_timemachine: { ar: "آلة الزمن", en: "Time Machine" },
   nav_basin: { ar: "تفاصيل الحوض", en: "Basin Details" },
   nav_queue: { ar: "طابور التفتيش", en: "Inspection Queue" },
   nav_impact: { ar: "عدّاد الأثر", en: "Impact Counter" },
@@ -204,6 +205,46 @@ const dict = {
   meth_ai_text: {
     ar: "بُني ميزان بمساعدة مكثّفة من Claude (Anthropic) في الكود والتصميم والوثائق — نفصح بفخر لا نخفي. القرارات العلمية والأرقام تتبع مصادرها الموثّقة حصراً.",
     en: "MIZAN was built with extensive help from Claude (Anthropic) for code, design and docs — disclosed proudly. Scientific decisions and numbers trace exclusively to documented sources.",
+  },
+
+  // ---- الطبقات والقمر الصناعي (إعادة التصميم)
+  basemap_satellite: { ar: "قمر صناعي (NASA)", en: "Satellite (NASA)" },
+  basemap_dark: { ar: "خريطة داكنة", en: "Dark map" },
+  layers: { ar: "الطبقات", en: "Layers" },
+  layer_suspect: { ar: "حقول مشبوهة", en: "Suspect fields" },
+  layer_basins_risk: { ar: "أحواض الخطر", en: "Risk basins" },
+  layer_real_imagery: { ar: "صور NASA حيّة", en: "Live NASA imagery" },
+  nasa_live_badge: { ar: "صور NASA حيّة", en: "Live NASA imagery" },
+  real_nasa: { ar: "بيانات NASA حقيقية", en: "Real NASA data" },
+
+  // ---- لوحة الاستراتيجية (إلهام التصميم — mockup 2)
+  kpi_performance: { ar: "مؤشرات الأداء", en: "KPI Performance" },
+  strategic_issues: { ar: "القضايا الاستراتيجية", en: "Strategic Issues" },
+  recommendation: { ar: "التوصية", en: "Recommendation" },
+  high_priority_zones: { ar: "مناطق أولوية قصوى", en: "High-priority zones" },
+  median_risk_zones: { ar: "مناطق خطر متوسط", en: "Median-risk zones" },
+  national_deficit: { ar: "العجز المائي الوطني", en: "National water deficit" },
+  overdraft_rate: { ar: "معدل الضخّ الجائر", en: "Overdraft rate" },
+  alert_status: { ar: "حالة الإنذار", en: "Alert status" },
+  rec_azraq: { ar: "ركّزوا الإنفاذ على حوض الأزرق", en: "Focus enforcement on Azraq Basin" },
+  rec_azraq_sub: { ar: "أعلى كثافة 🔴 + مغلق قانونياً + استرجاع أكبر لكل عملية", en: "Highest 🔴 density + legally closed + max recovery per operation" },
+  issue_closure: { ar: "إنفاذ إغلاق الأزرق", en: "Enforce Azraq closure" },
+  issue_recharge: { ar: "تدابير تغذية ذات أولوية", en: "Prioritized recharge measures" },
+  issue_conservation: { ar: "تدابير حفظ ذات أولوية", en: "Prioritized conservation" },
+  issue_targeting: { ar: "استهداف الآبار الكبرى أولاً", en: "Target largest wells first" },
+
+  // ---- آلة الزمن السينمائية (mockup 1)
+  satellite_time_machine: { ar: "آلة الزمن الفضائية", en: "Satellite Time Machine" },
+  before: { ar: "قبل", en: "before" },
+  after: { ar: "بعد", en: "after" },
+  intelligence: { ar: "التحليل", en: "Intelligence" },
+  recharge_rate: { ar: "معدل التغذية الجوفية", en: "Groundwater recharge rate" },
+  well_detections: { ar: "كشوف آبار غير مرخّصة", en: "Unauthorized well detections" },
+  risk_matrix: { ar: "مصفوفة الخطر", en: "Risk matrix" },
+  historical_water: { ar: "منسوب الماء التاريخي", en: "Historical water level" },
+  real_imagery_caption: {
+    ar: "صور MODIS/VIIRS حقيقية من NASA GIBS — الصحراء تخضرّ فوق الضخّ الجوفي",
+    en: "Real MODIS/VIIRS imagery from NASA GIBS — the desert greens over groundwater pumping",
   },
 } as const;
 

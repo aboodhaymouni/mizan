@@ -5,14 +5,16 @@ import { useParams, useRouter } from "next/navigation";
 import MapView from "@/components/MapView";
 import GraceChart from "@/components/GraceChart";
 import WellLevelChart from "@/components/WellLevelChart";
+import WaterBalanceChart from "@/components/WaterBalanceChart";
+import RainProof from "@/components/RainProof";
 import TimeMachine from "@/components/TimeMachine";
 import LedgerScales from "@/components/LedgerScales";
 import { DemoBadge, RegionalBadge } from "@/components/Badges";
 import {
-  getBasins, getExclusions, getFields, getForecast, getLedger, getTimeMachine, getTws,
+  getBasins, getClimate, getExclusions, getFields, getForecast, getLedger, getTimeMachine, getTws,
 } from "@/lib/api";
 import type {
-  BasinsFC, FieldsFC, Forecast, LedgerData, TimeMachineData, TwsSeries,
+  BasinsFC, ClimateData, FieldsFC, Forecast, LedgerData, TimeMachineData, TwsSeries,
 } from "@/lib/types";
 import { useLang } from "@/lib/i18n";
 import { fmt } from "@/lib/format";
@@ -30,6 +32,7 @@ export default function BasinPage() {
   const [basins, setBasins] = useState<BasinsFC | null>(null);
   const [exclusions, setExclusions] = useState<GeoJSON.FeatureCollection | null>(null);
   const [tm, setTm] = useState<TimeMachineData | null>(null);
+  const [climate, setClimate] = useState<ClimateData | null>(null);
   const [year, setYear] = useState(2026);
 
   useEffect(() => {
@@ -40,6 +43,7 @@ export default function BasinPage() {
     getBasins().then(setBasins).catch(() => {});
     getExclusions().then(setExclusions).catch(() => {});
     getTimeMachine().then(setTm).catch(() => {});
+    getClimate().then(setClimate).catch(() => {});
   }, [basinId]);
 
   const basin = basins?.features.find((b) => b.properties.id === basinId)?.properties;
@@ -140,6 +144,14 @@ export default function BasinPage() {
           <p className="px-1 text-[11px] leading-relaxed text-ink-mute">{t("time_machine_note")}</p>
         </div>
       </div>
+
+      {/* الميزان المائي الحقيقي (NASA POWER) + برهان المطر */}
+      {climate && (
+        <div className="grid gap-3 lg:grid-cols-[1fr_340px]">
+          <WaterBalanceChart climate={climate} />
+          <RainProof climate={climate} />
+        </div>
+      )}
 
       {/* دفتر الميزان */}
       {ledger && <LedgerScales ledger={ledger} />}

@@ -214,6 +214,37 @@ export interface MetaData {
   data_mode: string;
   generated_at: string;
   generator_version: string;
+  real_layers?: string[];
+  demo_layers?: string[];
   note_ar: string;
   note_en: string;
+}
+
+export interface ClimateData {
+  source: string;
+  title_ar: string;
+  title_en: string;
+  note_ar: string;
+  rain_proof: {
+    mean_summer_mm: number;
+    max_summer_mm: number;
+    years: number;
+    headline_ar: string;
+    headline_en: string;
+    implication_ar: string;
+    implication_en: string;
+  };
+  annual_rain: Record<string, number>;
+  series: { month: string; precip_mm: number; et_ref_mm: number; balance_mm: number; cum_deficit_mm: number }[];
+  is_real: boolean;
+  is_demo: boolean;
+}
+
+export interface NasaManifest {
+  provider: string;
+  basemap: { jordan: string; layer: string; bbox: [number, number, number, number]; date: string };
+  time_machine: { years: Record<string, string>; layer: string; bbox: [number, number, number, number] };
+  ndvi: { "2016": string; "2024": string; layer: string };
+  pivots: { disi: string; note_ar: string };
+  is_real: boolean;
 }
